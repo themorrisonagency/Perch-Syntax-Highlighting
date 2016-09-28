@@ -15,7 +15,7 @@ contexts:
           push: perch_tag
 
   perch_tag:
-    - match: '\b(if|else|for|while|content)\b'
+    - match: '\b(after|before|else|every|if|content|pages|categories|blocks|block|noresults|repeater|search|showall)\b'
       scope: keyword.control.html
     - match: '\b(-)?[0-9.]+\b'
       scope: constant.numeric.html-perch
