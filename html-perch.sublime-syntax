@@ -1,0 +1,56 @@
+%YAML 1.2
+---
+name: HTML (Perch)
+file_extensions:
+  - html
+scope: source.html
+contexts:
+  main:
+    - match: ""
+      push: "Packages/HTML/HTML.sublime-syntax"
+      with_prototype:
+        - match: '(<perch:)'
+          captures:
+            1: punctuation.definition.tag.begin.html
+          push: perch_tag
+
+  perch_tag:
+    - match: '\b(if|else|for|while|content)\b'
+      scope: keyword.control.html
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric.html-perch
+    - match: '/>'
+      scope: punctuation.definition.tag.end.html-perch
+      pop: true
+    - include: tag-generic-attribute
+
+  tag-generic-attribute:
+    - match: '(?:^|\s+)(([a-zA-Z0-9:\-_.]+)\s*(=)\s*)'
+      captures:
+        1: meta.attribute-with-value.html
+        2: entity.other.attribute-name.html
+        3: punctuation.separator.key-value.html
+      push:
+        - match: '"'
+          scope: punctuation.definition.string.begin.html
+          set:
+            - meta_scope: meta.attribute-with-value.html string.quoted.double.html
+            - match: '"'
+              scope: punctuation.definition.string.end.html
+              pop: true
+            - include: attribute-entities
+        - match: "'"
+          scope: punctuation.definition.string.begin.html
+          set:
+            - meta_scope: meta.attribute-with-value.html string.quoted.single.html
+            - match: "'"
+              scope: punctuation.definition.string.end.html
+              pop: true
+            - include: attribute-entities
+        - match: '(?:[^\s<>/''"]|/(?!>))+'
+          scope: meta.attribute-with-value.html string.unquoted.html
+        - match: ''
+          pop: true
+    - match: '\s+([a-zA-Z0-9:\-_.]+)'
+      captures:
+        1: entity.other.attribute-name.html
