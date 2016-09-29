@@ -21,7 +21,7 @@ contexts:
         1: variable.parameter
     - match: '\b(-)?[0-9.]+\b'
       scope: constant.numeric.html-perch
-    - match: '>'
+    - match: '>|/>'
       scope: punctuation.definition.tag.end.html
       pop: true
     - include: tag-generic-attribute
