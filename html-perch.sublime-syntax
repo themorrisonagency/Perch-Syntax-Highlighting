@@ -3,7 +3,7 @@
 name: HTML (Perch)
 file_extensions:
   - html
-scope: source.html
+scope: text.html.basic
 contexts:
   main:
     - match: ""
