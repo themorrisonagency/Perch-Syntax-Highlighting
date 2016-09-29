@@ -9,18 +9,20 @@ contexts:
     - match: ""
       push: "Packages/HTML/HTML.sublime-syntax"
       with_prototype:
-        - match: '(<perch:)'
+        - match: '(<|</)(perch:)'
           captures:
             1: punctuation.definition.tag.begin.html
+            2: entity.name.tag
           push: perch_tag
 
   perch_tag:
-    - match: '\b(after|before|else|every|if|content|pages|categories|blocks|block|noresults|repeater|search|showall)\b'
-      scope: keyword.control.html
+    - match: '([a-zA-Z]*\b)'
+      captures:
+        1: variable.parameter
     - match: '\b(-)?[0-9.]+\b'
       scope: constant.numeric.html-perch
-    - match: '/>'
-      scope: punctuation.definition.tag.end.html-perch
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
       pop: true
     - include: tag-generic-attribute
 
